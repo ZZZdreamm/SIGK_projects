@@ -1,0 +1,128 @@
+{
+  "denoise_sigma_0.01": {
+    "method": "bilateral",
+    "params": {
+      "sigma_color": 0.005,
+      "sigma_spatial": 8.0
+    },
+    "val_psnr": 42.02389196297181,
+    "val_ssim": 0.9794028292099635,
+    "n_val": 60,
+    "grid": {
+      "sigma_color": [
+        0.005,
+        0.01,
+        0.02,
+        0.05,
+        0.1
+      ],
+      "sigma_spatial": [
+        1.0,
+        3.0,
+        5.0,
+        8.0
+      ]
+    }
+  },
+  "denoise_sigma_0.03": {
+    "method": "bilateral",
+    "params": {
+      "sigma_color": 0.02,
+      "sigma_spatial": 3.0
+    },
+    "val_psnr": 34.66350797431793,
+    "val_ssim": 0.916501526037852,
+    "n_val": 60,
+    "grid": {
+      "sigma_color": [
+        0.005,
+        0.01,
+        0.02,
+        0.05,
+        0.1
+      ],
+      "sigma_spatial": [
+        1.0,
+        3.0,
+        5.0,
+        8.0
+      ]
+    }
+  },
+  "deblur_gauss_3x3": {
+    "method": "richardson_lucy",
+    "params": {
+      "num_iter": 20
+    },
+    "val_psnr": 41.28094971866289,
+    "val_ssim": 0.9779027760028839,
+    "n_val": 60,
+    "grid": {
+      "num_iter": [
+        5,
+        10,
+        20,
+        30,
+        50,
+        100,
+        200
+      ]
+    }
+  },
+  "deblur_gauss_5x5": {
+    "method": "richardson_lucy",
+    "params": {
+      "num_iter": 100
+    },
+    "val_psnr": 38.833116094134574,
+    "val_ssim": 0.9616115391254425,
+    "n_val": 60,
+    "grid": {
+      "num_iter": [
+        5,
+        10,
+        20,
+        30,
+        50,
+        100,
+        200
+      ]
+    }
+  },
+  "inpaint_3x3": {
+    "method": "telea",
+    "params": {
+      "radius": 1
+    },
+    "val_psnr": 39.91411101649376,
+    "val_ssim": 0.9829627762238184,
+    "n_val": 60,
+    "grid": {
+      "radius": [
+        1,
+        3,
+        5,
+        9
+      ]
+    }
+  },
+  "inpaint_32x32": {
+    "method": "telea",
+    "params": {
+      "radius": 15
+    },
+    "val_psnr": 34.12283188121142,
+    "val_ssim": 0.9591921816269556,
+    "n_val": 60,
+    "grid": {
+      "radius": [
+        1,
+        3,
+        5,
+        9,
+        15,
+        25
+      ]
+    }
+  }
+}

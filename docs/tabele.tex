@@ -1,0 +1,57 @@
+\begin{table}[h]
+\centering
+\begin{tabular}{lrrrr}
+\hline
+Metoda & MSE & PSNR [dB] $\uparrow$ & SSIM $\uparrow$ & LPIPS $\downarrow$ \\
+\hline
+bicubic\_sr\_32x32 & 0.00597 & 26.39 & 0.6209 & 0.5646 \\
+resunet\_sr\_32x32 & 0.00490 & \textbf{27.41} & \textbf{0.6727} & 0.4222 \\
+resunet-lpips\_sr\_32x32 & 0.00506 & 27.06 & 0.6603 & \textbf{0.3084} \\
+\hline
+\end{tabular}
+\caption{Zwiększanie rozdzielczości: super-resolution 32x32 $\rightarrow$ 256x256 (x8), downscale cv2.INTER\_AREA. Średnie na zbiorze testowym DIV2K (n = 3598 fragmentów 256x256).}
+\end{table}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lrrrr}
+\hline
+Metoda & MSE & PSNR [dB] $\uparrow$ & SSIM $\uparrow$ & LPIPS $\downarrow$ \\
+\hline
+bicubic\_sr\_64x64 & 0.00331 & 29.37 & 0.7673 & 0.3872 \\
+resunet\_sr\_64x64 & 0.00243 & \textbf{30.89} & \textbf{0.8181} & 0.2574 \\
+resunet-lpips\_sr\_64x64 & 0.00255 & 30.43 & 0.8082 & \textbf{0.1850} \\
+plain\_sr\_64x64 & 0.00258 & 30.61 & 0.8107 & 0.2707 \\
+resunet-noca\_sr\_64x64 & 0.00242 & 30.87 & 0.8177 & 0.2646 \\
+\hline
+\end{tabular}
+\caption{Zwiększanie rozdzielczości: super-resolution 64x64 $\rightarrow$ 256x256 (x4), downscale cv2.INTER\_AREA. Średnie na zbiorze testowym DIV2K (n = 3598 fragmentów 256x256).}
+\end{table}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lrrrr}
+\hline
+Metoda & MSE & PSNR [dB] $\uparrow$ & SSIM $\uparrow$ & LPIPS $\downarrow$ \\
+\hline
+degraded\_input\_denoise\_sigma\_0.01 & 0.00010 & 40.09 & 0.9565 & 0.0191 \\
+bilateral\_denoise\_sigma\_0.01 & 0.00007 & 41.99 & 0.9793 & 0.0144 \\
+resunet\_denoise\_sigma\_0.01 & 0.00003 & \textbf{45.32} & \textbf{0.9897} & \textbf{0.0063} \\
+\hline
+\end{tabular}
+\caption{Odszumianie: Gaussian noise sigma=0.01. Średnie na zbiorze testowym DIV2K (n = 3598 fragmentów 256x256).}
+\end{table}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lrrrr}
+\hline
+Metoda & MSE & PSNR [dB] $\uparrow$ & SSIM $\uparrow$ & LPIPS $\downarrow$ \\
+\hline
+degraded\_input\_denoise\_sigma\_0.03 & 0.00087 & 30.63 & 0.7530 & 0.1409 \\
+bilateral\_denoise\_sigma\_0.03 & 0.00040 & 34.63 & 0.9124 & 0.0789 \\
+resunet\_denoise\_sigma\_0.03 & 0.00015 & \textbf{39.45} & \textbf{0.9662} & \textbf{0.0336} \\
+\hline
+\end{tabular}
+\caption{Odszumianie: Gaussian noise sigma=0.03. Średnie na zbiorze testowym DIV2K (n = 3598 fragmentów 256x256).}
+\end{table}
