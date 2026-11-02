@@ -7,3 +7,4 @@ results/
 *.pt
 .ipynb_checkpoints/
 dataset/
+oddanie/
