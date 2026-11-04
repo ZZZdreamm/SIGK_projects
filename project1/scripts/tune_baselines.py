@@ -19,9 +19,9 @@ from pathlib import Path
 import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from sigk.metrics import psnr, ssim  # noqa: E402
-from sigk.tasks import ALL_TASKS, BASELINE_PARAMS_FILE, parse_task  # noqa: E402
-from sigk.utils import cpu_count, list_images, read_image  # noqa: E402
+from project1.sigk.metrics import psnr, ssim  # noqa: E402
+from project1.sigk.tasks import ALL_TASKS, BASELINE_PARAMS_FILE, parse_task  # noqa: E402
+from project1.sigk.utils import cpu_count, list_images, read_image  # noqa: E402
 
 GRIDS = {
     "denoise": {"sigma_color": [0.005, 0.01, 0.02, 0.05, 0.1], "sigma_spatial": [1.0, 3.0, 5.0, 8.0]},

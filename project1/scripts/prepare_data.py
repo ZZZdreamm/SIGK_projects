@@ -30,7 +30,7 @@ import numpy as np
 from tqdm import tqdm
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from sigk.utils import list_images, read_image, write_image  # noqa: E402
+from project1.sigk.utils import list_images, read_image, write_image  # noqa: E402
 
 
 def grid_tiles(img: np.ndarray, patch: int, max_tiles: int | None) -> list[np.ndarray]:

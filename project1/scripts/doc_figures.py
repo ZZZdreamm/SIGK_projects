@@ -19,7 +19,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from sigk.utils import load_json  # noqa: E402
+from project1.sigk.utils import load_json  # noqa: E402
 
 TEXT, TEXT2, GRID, SURFACE = "#0b0b0b", "#52514e", "#e4e3df", "#fcfcfb"
 GRAY = "#8a8985"

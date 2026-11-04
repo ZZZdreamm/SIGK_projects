@@ -14,9 +14,9 @@ from pathlib import Path
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from sigk.tasks import TASK_NAMES  # noqa: E402
-from sigk.utils import load_json  # noqa: E402
-from sigk.visualize import metric_bars, training_curves  # noqa: E402
+from project1.sigk.tasks import TASK_NAMES  # noqa: E402
+from project1.sigk.utils import load_json  # noqa: E402
+from project1.sigk.visualize import metric_bars, training_curves  # noqa: E402
 
 TASK_TITLES = {"sr": "Zwiększanie rozdzielczości", "denoise": "Odszumianie", "deblur": "Deblurowanie", "inpaint": "Inpainting"}
 

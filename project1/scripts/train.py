@@ -19,13 +19,13 @@ from torch.utils.data import DataLoader
 from tqdm import tqdm
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from sigk.data import PatchDataset  # noqa: E402
-from sigk.losses import RestorationLoss  # noqa: E402
-from sigk.metrics import LPIPS, MetricAccumulator  # noqa: E402
-from sigk.models import build_model, compose_output  # noqa: E402
-from sigk.tasks import parse_task  # noqa: E402
-from sigk.utils import count_parameters, cpu_count, get_device, seed_everything  # noqa: E402
-from sigk.visualize import training_curves  # noqa: E402
+from project1.sigk.data import PatchDataset  # noqa: E402
+from project1.sigk.losses import RestorationLoss  # noqa: E402
+from project1.sigk.metrics import LPIPS, MetricAccumulator  # noqa: E402
+from project1.sigk.models import build_model, compose_output  # noqa: E402
+from project1.sigk.tasks import parse_task  # noqa: E402
+from project1.sigk.utils import count_parameters, cpu_count, get_device, seed_everything  # noqa: E402
+from project1.sigk.visualize import training_curves  # noqa: E402
 
 
 def parse_args():

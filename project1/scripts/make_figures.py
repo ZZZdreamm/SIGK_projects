@@ -23,12 +23,12 @@ import numpy as np
 import torch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from scripts.evaluate import load_model  # noqa: E402
-from sigk.data import PatchDataset  # noqa: E402
-from sigk.metrics import psnr, ssim  # noqa: E402
-from sigk.models import compose_output  # noqa: E402
-from sigk.tasks import parse_task  # noqa: E402
-from sigk.utils import get_device, load_json, read_image, tensor_to_hwc, write_image  # noqa: E402
+from project1.scripts.evaluate import load_model  # noqa: E402
+from project1.sigk.data import PatchDataset  # noqa: E402
+from project1.sigk.metrics import psnr, ssim  # noqa: E402
+from project1.sigk.models import compose_output  # noqa: E402
+from project1.sigk.tasks import parse_task  # noqa: E402
+from project1.sigk.utils import get_device, load_json, read_image, tensor_to_hwc, write_image  # noqa: E402
 
 TASK_FROM_RESULT = {"sr": lambda n: f"sr:{n.split('_')[1].split('x')[0]}",
                     "denoise": lambda n: f"denoise:{n.split('_')[-1]}",
