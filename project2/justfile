@@ -1,0 +1,53 @@
+# SIGK project 2 - low light image enhancement
+# `just` lists the recipes, `just all` runs the whole pipeline.
+
+set shell := ["bash", "-euo", "pipefail", "-c"]
+
+epochs := "60"
+main := "isp"
+
+default:
+    @just --list
+
+# install dependencies (torch with CUDA 12.8)
+sync:
+    uv sync
+
+# download the first 100 photos (Nikon D7000, Indoor) from RAISE (~1.9 GB)
+download:
+    uv run python scripts/download.py --csv RAISE_258.csv --out data/nef --limit 100
+
+# generate input/GT pairs (+ linear image) and the train/val/test split
+prepare:
+    uv run python scripts/prepare_data.py --nef-dir data/nef --out data/dataset
+
+# train one variant, e.g. `just train e2e_srgb --input-mode srgb`
+train name *args:
+    uv run python scripts/train.py --name {{name}} --epochs {{epochs}} {{args}}
+
+# all variants from the documentation
+train-all:
+    just train isp
+    just train e2e_srgb --input-mode srgb
+    just train e2e_prior --input-mode prior
+    just train isp_fixed --data-mode fixed
+    just train isp_lpips --lpips-weight 0.1
+    just train isp_jitter --noise-jitter
+
+# PSNR/SSIM/LPIPS metrics (+ Delta E, clipping) on the 20 test images
+evaluate:
+    uv run python scripts/evaluate.py --runs $(ls -d runs/*/ | sed 's:/$::') --main {{main}}
+
+# robustness to other EV / noise levels
+robustness:
+    uv run python scripts/robustness.py --runs runs/{{main}} runs/isp_jitter runs/e2e_prior
+
+# figures in docs/figures
+figures:
+    uv run python scripts/make_figures.py --runs $(ls -d runs/*/ | sed 's:/$::') --main {{main}}
+
+all: download prepare train-all evaluate robustness figures
+
+# remove generated results (keeps the data)
+clean:
+    rm -rf results docs/figures
