@@ -10,3 +10,6 @@ dataset/
 oddanie/
 data_download.log
 train_all.log
+eval.log
+robust.log
+figures.log

@@ -7,6 +7,11 @@ robimy na 20 ostatnich.
 
 **Dokumentacja eksperymentów, wyniki i wnioski: [docs/DOKUMENTACJA.md](docs/DOKUMENTACJA.md).**
 
+| Metoda (20 obrazów testowych) | PSNR [dB] ↑ | SSIM ↑ | LPIPS ↓ |
+|---|---|---|---|
+| baseline (wyrównanie histogramu) | 11,31 | 0,152 | 1,076 |
+| network (`isp`) | **29,74** | **0,762** | **0,261** |
+
 ## Uruchomienie (uv + just)
 
 ```bash
