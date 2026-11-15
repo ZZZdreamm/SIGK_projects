@@ -46,6 +46,10 @@ robustness:
 figures:
     uv run python scripts/make_figures.py --runs $(ls -d runs/*/ | sed 's:/$::') --main {{main}}
 
+# demo on a single image: RAW (.NEF) or a dark PNG, e.g. `just predict data/nef/redaf7d93t.NEF`
+predict image *args:
+    uv run python scripts/predict.py {{image}} --checkpoint runs/{{main}}/best.pt {{args}}
+
 all: download prepare train-all evaluate robustness figures
 
 # remove generated results (keeps the data)

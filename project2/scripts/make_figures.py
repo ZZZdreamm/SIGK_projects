@@ -115,9 +115,16 @@ def fig_grid(results, data, names, methods, out, fname="comparison.png", step=4)
 
 
 def pick_crop(gt, size, mode="detail"):
-    """Picks a crop: 'detail' - most edges, 'clipped' - most clipped pixels."""
+    """Picks a crop: 'detail' - most structure, 'clipped' - most clipped pixels."""
     g = cv2.cvtColor(gt, cv2.COLOR_RGB2GRAY).astype(np.float32)
-    score = np.abs(cv2.Laplacian(g, cv2.CV_32F)) if mode == "detail" else (gt.max(-1) >= 250).astype(np.float32)
+    if mode == "detail":
+        # gradient magnitude of a blurred image: real edges/text, not fine grain;
+        # clipped pixels are excluded (they are analysed in a separate figure)
+        gb = cv2.GaussianBlur(g, (0, 0), 2.0)
+        score = np.hypot(cv2.Sobel(gb, cv2.CV_32F, 1, 0), cv2.Sobel(gb, cv2.CV_32F, 0, 1))
+        score[gt.max(-1) >= 250] = 0
+    else:
+        score = (gt.max(-1) >= 250).astype(np.float32)
     score = cv2.boxFilter(score, -1, (size, size))
     h, w = g.shape
     score[: size // 2], score[h - size // 2:], score[:, : size // 2], score[:, w - size // 2:] = 0, 0, 0, 0
@@ -158,10 +165,10 @@ def fig_curves(runs, out):
             continue
         d = pd.read_csv(f)
         c = SERIES[i % len(SERIES)]
-        ax[0].plot(d.epoch, d.loss, color=c, label=Path(r).name)
-        ax[1].plot(d.epoch, d.val_psnr, color=c, label=Path(r).name)
-        ax[1].annotate(f"{d.val_psnr.max():.2f}", (d.epoch.iloc[-1], d.val_psnr.iloc[-1]),
-                       xytext=(4, 0), textcoords="offset points", color=INK2, fontsize=8, va="center")
+        name = Path(r).name
+        ax[0].plot(d.epoch, d.loss, color=c, label=name)
+        # best value in the legend instead of end-of-line labels (those overlap for close curves)
+        ax[1].plot(d.epoch, d.val_psnr, color=c, label=f"{name} (best {d.val_psnr.max():.2f})")
     ax[0].set_title("Training loss"); ax[0].set_xlabel("epoch"); ax[0].set_yscale("log")
     ax[1].set_title("Validation PSNR [dB]"); ax[1].set_xlabel("epoch")
     ax[1].legend(frameon=False, fontsize=8)

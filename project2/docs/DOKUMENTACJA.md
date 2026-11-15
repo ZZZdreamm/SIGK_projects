@@ -365,7 +365,14 @@ just train-all     # 6 wariantów (~3,5 h na RTX 5050)
 just evaluate      # results/summary_test.csv, results/table_test.md
 just robustness    # results/robustness.csv
 just figures       # docs/figures/*.png
+just predict data/nef/rc1d2751dt.NEF   # demo: jedno zdjęcie -> results/demo/*_comparison.png
 ```
+
+Demo przyciemnia plik RAW o 3 EV i dodaje szum tak samo jak w zbiorze danych.
+Potem uruchamia baseline i sieć i zapisuje porównanie z metrykami względem GT.
+Przyjmuje też gotowe ciemne zdjęcie PNG/JPG (`--gt` opcjonalnie). Opcje `--ev`
+i `--seed` pozwalają pokazać działanie przy innej ekspozycji i innej
+realizacji szumu.
 
 | Plik | Zawartość |
 |---|---|
