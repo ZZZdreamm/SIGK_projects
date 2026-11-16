@@ -1,0 +1,68 @@
+# SIGK project 3 - neural rendering of the Phong model (conditional GAN)
+# `just` lists the recipes, `just all` runs the whole pipeline.
+
+set shell := ["bash", "-euo", "pipefail", "-c"]
+
+epochs := "150"
+main := "geometric_gan"
+
+default:
+    @just --list
+
+# install dependencies (torch with CUDA 12.8)
+sync:
+    uv sync
+
+# render 3000 random scenes with the provided renderer (headless) -> data/dataset
+dataset:
+    cd SIGK___Projekt_3/src && uv run python main.py phong --window headless --num_images 3000 --seed 0 --output_path ../../data/dataset/
+
+# train one variant, e.g. `just train camera_gan --encoding camera`
+train name *args:
+    uv run python scripts/train.py --name {{name}} --epochs {{epochs}} {{args}}
+
+# all variants from the documentation
+train-all:
+    just train geometric_gan --encoding geometric
+    just train camera_gan --encoding camera
+    just train raw_gan --encoding raw
+    just train geometric_l1 --encoding geometric --adv-weight 0
+
+# GAN v2 (masked adversarial loss + feature matching) and the matching pure-L1 baselines
+train-v2:
+    just train geometric_gan_v2 --encoding geometric --adv-mask --fm-weight 10 --select lpips
+    just train camera_gan_v2 --encoding camera --adv-mask --fm-weight 10 --select lpips
+    just train raw_gan_v2 --encoding raw --adv-mask --fm-weight 10 --select lpips
+    just train camera_l1 --encoding camera --adv-weight 0 --select lpips
+    just train raw_l1 --encoding raw --adv-weight 0 --select lpips
+
+# paired GAN vs L1 comparison (Wilcoxon) + its figures; run after `just evaluate`
+compare-gan:
+    uv run python scripts/compare_gan.py
+    uv run python scripts/gan_figures.py
+
+# FLIP / LPIPS / SSIM / Hausdorff on the 600 test images
+evaluate:
+    uv run python scripts/evaluate.py --runs $(ls -d runs/*/ | sed 's:/$::')
+
+# how the metrics react to controlled distortions of the reference
+metric-study:
+    uv run python scripts/metric_study.py
+
+# figures in docs/figures
+figures:
+    uv run python scripts/make_figures.py --main {{main}}
+
+# report as PDF (docs/DOKUMENTACJA.pdf), needs Chrome/Chromium (Windows Chrome under WSL works)
+pdf:
+    uv run --with markdown python scripts/build_pdf.py
+
+# neural renderer connected with the OpenGL renderer (window: reference | network | FLIP)
+demo *args:
+    cd SIGK___Projekt_3/src && uv run python main.py neural --checkpoint ../../runs/{{main}}/best.pt {{args}}
+
+# the same without a window, saves panels + metrics to results/demo
+demo-headless n="8":
+    cd SIGK___Projekt_3/src && uv run python main.py neural --window headless --num_images {{n}} --seed 123 --checkpoint ../../runs/{{main}}/best.pt --output_path ../../results/demo
+
+all: dataset train-all train-v2 evaluate compare-gan metric-study figures demo-headless
